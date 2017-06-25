@@ -3,14 +3,14 @@ package com.github.seanroy.aws_signer;
 import java.math.BigInteger;
 import java.net.URI;
 import java.security.MessageDigest;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
-public class TaskOne {
+public class TaskOne extends SigningTask {
     public static final String HashAlgorithm = "SHA-256";
     private URI uri;
     private String HTTPRequestMethod;
@@ -20,6 +20,13 @@ public class TaskOne {
     private String SignedHeaders;
     private String RequestPayload;
     
+    public TaskOne(String date) {
+    	super(date);
+    }
+    
+    public TaskOne(Date date) {
+    	super(date);
+    }
     
     public String getHTTPRequestMethod() {
         return HTTPRequestMethod;
@@ -64,6 +71,7 @@ public class TaskOne {
     public void setHeaders(String [] headers) {
         Map<String,String> kAndV = new HashMap<String,String>();
         kAndV.put("host", uri.getHost().trim().toLowerCase());
+        kAndV.put("x-amz-date", date);
         
         Stream.of(headers).forEach(header -> {
             String [] pieces = header.trim().replaceAll("\\s+", " ").split(":");
@@ -75,7 +83,6 @@ public class TaskOne {
         }).reduce("", (a,b) -> a + b + "\n");
         
         SignedHeaders = kAndV.keySet().stream().sorted().collect(Collectors.joining(";")) + "\n";
-        System.out.println(SignedHeaders);
     }
     public TaskOne withHeaders(String [] headers) {
         setHeaders(headers);
@@ -128,16 +135,19 @@ public class TaskOne {
     public static void main(String [] args) {
         String url = "https://iam.amazonaws.com/?Action=ListUsers&Version=2010-05-08";
         String [] headers = {
-                "Content-Type: application/x-www-form-urlencoded; charset=utf-8", 
-                "X-Amz-Date: 20150830T123600Z"};
+                "Content-Type: application/x-www-form-urlencoded; charset=utf-8"};
         
-        TaskOne t = new TaskOne()
+        TaskOne t = new TaskOne("20150830T123600Z")
             .withHTTPRequestMethod("GET")
             .withURL(url)
             .withRequestPayload("")
             .withHeaders(headers);
         
-        System.out.println(t.getCanonicalRequest());
-        System.out.println(t.getHashedCanonicalRequest());
+        //System.out.println(t.getCanonicalRequest());
+        //System.out.println(t.getHashedCanonicalRequest());
+        
+        String stringToSign = TaskTwo.getStringToSign("20150830T123600Z", "us-east-1", "iam", t.getHashedCanonicalRequest());
+        
+        System.out.println(stringToSign);
     }
 }
