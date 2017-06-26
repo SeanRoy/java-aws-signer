@@ -13,7 +13,7 @@ import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
  * x-amz-date and host headers.
  *
  */
-public class AWSRequestSigner 
+public class AWSV4RequestSigner 
 {
     public static HttpRequestBase signAWSRequest(HttpRequestBase request, String region, String service, String data, 
                                                  String [] headers) throws Exception {

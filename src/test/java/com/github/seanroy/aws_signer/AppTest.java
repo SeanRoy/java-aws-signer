@@ -67,7 +67,7 @@ public class AppTest
 
             String [] headers = null;
             
-            HttpRequestBase request = AWSRequestSigner.signAWSRequest(new HttpGet(url), "us-east-1", "apigateway", "", headers);
+            HttpRequestBase request = AWSV4RequestSigner.signAWSRequest(new HttpGet(url), "us-east-1", "apigateway", "", headers);
            
             CloseableHttpClient httpclient = HttpClients.createDefault();
             CloseableHttpResponse response = httpclient.execute(request);
