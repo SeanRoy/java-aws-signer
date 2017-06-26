@@ -4,7 +4,7 @@
 
   <groupId>com.github.seanroy</groupId>
   <artifactId>aws-signer</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <packaging>jar</packaging>
 
   <name>aws-signer</name>
