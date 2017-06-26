@@ -3,7 +3,6 @@ package com.github.seanroy.aws_signer;
 import java.util.Date;
 
 import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
 
 public class TaskFour extends SigningTask  {
     public static String getAuthorizationHeader(AWSCredentials credentials, String method, Date timeNow, String url, String payload, String [] headers, String region, String serviceName) throws Exception{

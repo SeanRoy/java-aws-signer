@@ -1,14 +1,13 @@
 package com.github.seanroy.aws_signer;
 
-import java.math.BigInteger;
+import static java.util.Optional.ofNullable;
+
 import java.net.URI;
-import java.security.MessageDigest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import static java.util.Optional.ofNullable;
 
 
 public class TaskOne extends SigningTask {
@@ -116,36 +115,6 @@ public class TaskOne extends SigningTask {
     }
     
     public String getHashedCanonicalRequest() {
-        System.err.println(getCanonicalRequest());
         return toHex(hash(getCanonicalRequest())).toLowerCase();
-    }
-    
-    public static void main(String [] args) {
-        String url = "https://apigateway.us-east-1.amazonaws.com";
-        
-        String [] headers = {};
-        
-        TaskOne t = new TaskOne("20170626T212030Z", "apigateway")
-            .withHTTPRequestMethod("GET")
-            .withURL(url)
-            .withRequestPayload("")
-            .withHeaders(headers);
-        
-        System.out.println(t.getCanonicalRequest().equals("GET\n/\n\nhost:apigateway.us-east-1.amazonaws.com\nx-amz-date:20170626T212030Z\n\nhost;x-amz-date\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"));
-        //System.out.println(t.getHashedCanonicalRequest());
-        
-        
-        /**
-         * The request signature we calculated does not match the signature you provided. Check your AWS Secret Access Key and signing method. Consult the service documentation for details.\n\n
-         * The Canonical String for this request should have been\n'
-         * GET\n/\n\nhost:apigateway.us-east-1.amazonaws.com\nx-amz-date:20170626T212030Z\n\nhost;x-amz-date\ne3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'\n\n
-         * The String-to-Sign should have been\n'AWS4-HMAC-SHA256\n20170626T212030Z\n20170626/us-east-1/apigateway/aws4_request\nb6dbbab3f5be0bc4aa1b9088799b6167e9440575667f31f32a8e0844b6eac6b8'\n"}
-         */
-        
-        String stringToSign = TaskTwo.getStringToSign("20170626T212030Z", "us-east-1", "apigateway", t.getHashedCanonicalRequest());
-        
-        System.out.println(stringToSign.equals("AWS4-HMAC-SHA256\n20170626T212030Z\n20170626/us-east-1/apigateway/aws4_request\nb6dbbab3f5be0bc4aa1b9088799b6167e9440575667f31f32a8e0844b6eac6b8"));
-        System.out.println("---");
-        System.out.println("AWS4-HMAC-SHA256\n20170626T210432Z\n20170626/us-east-1/apigateway/aws4_request\n92aa4fcf6983fd270cfaf26b21ee3d74affa6dd097681b8bf6499867a9e01e8d");
     }
 }
