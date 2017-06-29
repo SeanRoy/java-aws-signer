@@ -25,6 +25,9 @@ public class TaskFour extends SigningTask  {
                 region, 
                 serviceName);
         
+        System.err.println(t1.getCanonicalRequest());
+        
+        
         String scope = String.format("%s/%s/%s/aws4_request", date.substring(0,8), region.toLowerCase(), serviceName.toLowerCase());
         
         return String.format("AWS4-HMAC-SHA256 Credential=%s/%s, SignedHeaders=%s, Signature=%s",

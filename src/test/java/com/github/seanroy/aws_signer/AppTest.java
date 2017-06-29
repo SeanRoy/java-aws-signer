@@ -3,6 +3,11 @@ package com.github.seanroy.aws_signer;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -12,10 +17,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import com.amazonaws.auth.BasicAWSCredentials;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
 /**
  * Unit test for simple App.
@@ -65,7 +66,7 @@ public class AppTest
         try {
             String url = "https://apigateway.us-east-1.amazonaws.com";
 
-            String [] headers = null;
+            List<String> headers = null;
             
             HttpRequestBase request = AWSV4RequestSigner.signAWSRequest(new HttpGet(url), "us-east-1", "apigateway", "", headers);
            
